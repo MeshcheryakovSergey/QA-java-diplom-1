@@ -4,6 +4,7 @@ import praktikum.Bun;
 
 public class BunTest {
 
+    public static final float ACCURACY = 0.0f;
 
     @Test
     public void getNameTest() {
@@ -14,7 +15,7 @@ public class BunTest {
     @Test
     public void getPriceTest() {
         Bun bun = new Bun("Булка", 1.1f);
-        Assert.assertEquals(1.1f, bun.getPrice(),  0.0f);
+        Assert.assertEquals(1.1f, bun.getPrice(),  ACCURACY);
     }
 
 }

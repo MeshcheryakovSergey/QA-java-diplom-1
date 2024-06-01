@@ -1,15 +1,30 @@
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import praktikum.IngredientType;
 
+
+@RunWith(Parameterized.class)
 public class IngredientTypeTest {
-    @Test
-    public void getCorrectSauceValue() {
-        Assert.assertEquals("SAUCE",IngredientType.SAUCE.toString());
+
+    private final String typeName;
+
+    public IngredientTypeTest(String typeName) {
+        this.typeName = typeName;
+    }
+
+    @Parameterized.Parameters
+    public static Object[][] dataForTest() {
+        return new Object[][]{
+                {"SAUCE"},
+                {"FILLING"}
+        };
     }
 
     @Test
-    public void getCorrectFillingValue() {
-        Assert.assertEquals("FILLING",IngredientType.FILLING.toString());
+    public void IngredientTypeParamTest() {
+        Assert.assertEquals(IngredientType.valueOf(typeName.toUpperCase()).toString(),
+                typeName);
     }
 }

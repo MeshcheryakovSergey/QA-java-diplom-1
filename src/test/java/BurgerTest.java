@@ -1,5 +1,4 @@
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -7,15 +6,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import praktikum.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 @RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
+
+    public static final float ACCURACY = 0.0f;
+
     private final Burger burger = new Burger();
 
     @Mock
-    Database database;
+    Bun bun;
     @Mock
     Ingredient ingredient;
     @Mock
@@ -23,35 +22,35 @@ public class BurgerTest {
     @Mock
     Ingredient ingredientThird;
 
-    private final List<Bun> buns = Arrays.asList(new Bun("red bun",300f));
+    String bunName = "red bun";
+    float bunPrice = 300f;
 
-    private final String bunName = "red bun";
-
-
-    @Before
-    public void setAvailableBun() {
-        Mockito.when(database.availableBuns()).thenReturn(buns);
-    }
 
     @Test
     public void checkSetBuns() {
-        burger.setBuns(database.availableBuns().get(0));
+        burger.setBuns(bun);
+        Mockito.when(bun.getName()).thenReturn("red bun");
         Assert.assertEquals(bunName, burger.bun.getName());
     }
 
     @Test
     public void checkGetPrice() {
+        burger.setBuns(bun);
+        Mockito.when(bun.getPrice()).thenReturn(bunPrice);
         Mockito.when(ingredient.getPrice()).thenReturn(424f);
         Mockito.when(ingredientSecond.getPrice()).thenReturn(110.5F);
-        burger.setBuns(database.availableBuns().get(0));
         burger.addIngredient(ingredient);
         burger.addIngredient(ingredientSecond);
         float expectedBurgerPrice = 1134.5f;
-        Assert.assertEquals("Некорректная цена бургера с двумя добавленными ингредиентами", expectedBurgerPrice, burger.getPrice(), 0f);
+        Assert.assertEquals("Некорректная цена бургера с двумя добавленными ингредиентами",
+                expectedBurgerPrice, burger.getPrice(), ACCURACY);
     }
 
     @Test
     public void checkGetReceipt() {
+        burger.setBuns(bun);
+        Mockito.when(bun.getPrice()).thenReturn(bunPrice);
+        Mockito.when(bun.getName()).thenReturn(bunName);
         Mockito.when(ingredient.getType()).thenReturn(IngredientType.SAUCE);
         Mockito.when(ingredient.getName()).thenReturn("chili sauce");
         Mockito.when(ingredient.getPrice()).thenReturn(300f);
@@ -61,7 +60,6 @@ public class BurgerTest {
         Mockito.when(ingredientThird.getType()).thenReturn(IngredientType.FILLING);
         Mockito.when(ingredientThird.getName()).thenReturn("cutlet");
         Mockito.when(ingredientThird.getPrice()).thenReturn(100f);
-        burger.setBuns(database.availableBuns().get(0));
         burger.addIngredient(ingredient);
         burger.addIngredient(ingredientSecond);
         burger.addIngredient(ingredientThird);

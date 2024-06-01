@@ -9,9 +9,12 @@ import static praktikum.IngredientType.*;
 
 @RunWith(Parameterized.class)
 public class IngredientTest {
+
     public final IngredientType type;
     public final String name;
     public final float price;
+
+    public static final float ACCURACY = 0.0f;
 
     public IngredientTest(IngredientType type, String name, float price) {
         this.type = type;
@@ -39,7 +42,7 @@ public class IngredientTest {
     public void ingredientParamTest (){
         Ingredient ingredient = new Ingredient(type, name, price);
         Assert.assertEquals(name, ingredient.getName());
-        Assert.assertEquals(price, ingredient.getPrice(), 0.0f);
+        Assert.assertEquals(price, ingredient.getPrice(), ACCURACY);
         Assert.assertEquals(type, ingredient.getType());
     }
 }
